@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: soap-simple
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: soap-simple
+  template:
+    metadata:
+      labels:
+        app: soap-simple
+    spec:
+      containers:
+      - name: soap-simple
+        image: protocols-soap-simple:local
+        ports:
+        - containerPort: 5006
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: soap-simple
+spec:
+  selector:
+    app: soap-simple
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 5006
+    name: http

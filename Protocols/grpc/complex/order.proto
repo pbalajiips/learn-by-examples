@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package complex;
+
+service OrderService {
+  rpc CreateOrder (OrderRequest) returns (OrderResponse);
+  rpc GetOrder (GetOrderRequest) returns (OrderResponse);
+  rpc TrackOrder (TrackRequest) returns (stream OrderStatus);
+  rpc SubmitRatings (stream Rating) returns (RatingSummary);
+  rpc OrderChat (stream ChatMessage) returns (stream ChatMessage);
+}
+
+message OrderRequest {
+  string customer = 1;
+  repeated string items = 2;
+}
+
+message GetOrderRequest {
+  int32 order_id = 1;
+}
+
+message OrderResponse {
+  int32 order_id = 1;
+  string customer = 2;
+  repeated string items = 3;
+  string status = 4;
+}
+
+message TrackRequest {
+  int32 order_id = 1;
+}
+
+message OrderStatus {
+  int32 order_id = 1;
+  string status = 2;
+}
+
+message Rating {
+  int32 stars = 1;
+  string comment = 2;
+}
+
+message RatingSummary {
+  int32 count = 1;
+  double average = 2;
+}
+
+message ChatMessage {
+  string user = 1;
+  string message = 2;
+}

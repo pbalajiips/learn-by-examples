@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rest-simple
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rest-simple
+  template:
+    metadata:
+      labels:
+        app: rest-simple
+    spec:
+      containers:
+      - name: rest-simple
+        image: protocols-rest-simple:local
+        ports:
+        - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rest-simple
+spec:
+  selector:
+    app: rest-simple
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 5000
+    name: http

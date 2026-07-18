@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: graphql-books
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: graphql-books
+  template:
+    metadata:
+      labels:
+        app: graphql-books
+    spec:
+      containers:
+      - name: graphql-books
+        image: protocols-graphql-books:local
+        ports:
+        - containerPort: 5003
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: graphql-books
+spec:
+  selector:
+    app: graphql-books
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 5003
+    name: http

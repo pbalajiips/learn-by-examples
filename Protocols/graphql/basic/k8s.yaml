@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: graphql-basic
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: graphql-basic
+  template:
+    metadata:
+      labels:
+        app: graphql-basic
+    spec:
+      containers:
+      - name: graphql-basic
+        image: protocols-graphql-basic:local
+        ports:
+        - containerPort: 5002
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: graphql-basic
+spec:
+  selector:
+    app: graphql-basic
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 5002
+    name: http

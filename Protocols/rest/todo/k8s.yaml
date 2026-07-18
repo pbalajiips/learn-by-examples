@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rest-todo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rest-todo
+  template:
+    metadata:
+      labels:
+        app: rest-todo
+    spec:
+      containers:
+      - name: rest-todo
+        image: protocols-rest-todo:local
+        ports:
+        - containerPort: 5001
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rest-todo
+spec:
+  selector:
+    app: rest-todo
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 5001
+    name: http

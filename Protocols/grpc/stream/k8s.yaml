@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grpc-stream
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grpc-stream
+  template:
+    metadata:
+      labels:
+        app: grpc-stream
+    spec:
+      containers:
+      - name: grpc-stream
+        image: protocols-grpc-stream:local
+        ports:
+        - containerPort: 50052
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: grpc-stream
+spec:
+  selector:
+    app: grpc-stream
+  ports:
+  - protocol: TCP
+    port: 50052
+    targetPort: 50052
+    name: grpc
